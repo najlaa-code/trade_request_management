@@ -1,9 +1,7 @@
-# trade_request_management
-Trade tariff management system (LinkedList-based) that loads tariff policies from two text files and provides an interactive menu to search for a specific tariff and process trade requests.
-
 # Trade Request Management System
 
-A Java-based linked list application for managing international trade tariffs and evaluating trade requests between countries.
+A Java-based linked list application for managing international trade tariffs and evaluating trade requests between countries. It oads tariff policies from two text files and provides an interactive menu to search for a specific tariff and process trade requests.
+
 
 ## Overview
 
