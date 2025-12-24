@@ -73,3 +73,157 @@ The system evaluates trade requests using three-tier logic:
 - Trade cannot proceed
 
 ## 📁 Project Structure
+```
+part2_linkedlists/
+├── TradeManagerDriver.java    # Main driver with interactive menu
+├── TariffList.java            # Custom linked list implementation
+├── Tariffs.java               # Tariff object definition
+├── TradeRequest.java          # Trade request object
+└── TariffPolicy.java          # Interface for trade evaluation
+```
+
+### Class Descriptions
+
+**TradeManagerDriver.java**
+- Entry point of the application
+- Handles user interaction and menu navigation
+- Manages file I/O operations
+- Processes and displays trade requests
+
+**TariffList.java**
+- Custom linked list implementation for tariff storage
+- Inner class `TariffNode` for list nodes
+- Methods: insert, delete, search, replace, equality checking
+- Implements `TariffPolicy` interface
+
+**Tariffs.java**
+- Represents a single tariff policy
+- Contains country, category, and percentage information
+- Includes clone, equals, and toString methods
+
+**TradeRequest.java**
+- Represents a trade request from a country
+- Contains request ID, origin, destination, category, trade value, and proposed tariff
+
+**TariffPolicy.java**
+- Interface defining trade evaluation contract
+- Method: `evaluateTrade(double proposedTariff, double minimumTariff)`
+
+## 🛠️ Requirements
+
+- **Java Version:** Java 8 or higher
+- **Input Files:**
+  - `TariffsList1.txt` - First tariff policy list
+  - `TariffsList2.txt` - Second tariff policy list
+  - `TradeRequests.txt` - Trade requests to evaluate
+
+## 💾 Installation
+
+1. **Clone or download the repository**
+```bash
+git clone <your-repository-url>
+cd part2_linkedlists
+```
+
+2. **Ensure input files are in the correct location**
+Place the three required `.txt` files in the same directory as the Java files.
+
+3. **Compile the program**
+```bash
+javac part2_linkedlists/*.java
+```
+
+## 🚀 Usage
+
+### Running the Program
+```bash
+java part2_linkedlists.TradeManagerDriver
+```
+
+### Example Interaction
+```
+Reading list 1 ... (origin -> destination)
+Added Tariff: USA -> China
+Added Tariff: China -> USA
+...
+
+----- Main Menu -----
+What would you like to do ?
+  1. Search for a tariff.
+  2. Display trade requests.
+  3. Test the program.
+  4. Exit the program.
+Enter your choice here: 1
+
+Enter the destination country to search for tariffs: China
+Enter the origin country to search for tariffs: USA
+Enter the category to search for tariffs: Electronics
+
+Iterations: 5
+Tariff(s) found: 
+ Destination Country: China
+ Origin Country: USA
+ Category: Electronics
+ Tariff percentage: 15
+```
+
+## 📄 Input File Formats
+
+### Tariff Files (TariffsList1.txt, TariffsList2.txt)
+Format: `destination origin category percentage`
+
+Example:
+```
+China USA Electronics 15
+Germany France Automobile 10
+India UK Agriculture 8
+```
+
+### Trade Requests File (TradeRequests.txt)
+Format: `requestID origin destination category tradeValue proposedTariff`
+
+Example:
+```
+REQ001 USA China Electronics 50000.0 15.0
+REQ002 France Germany Automobile 75000.0 8.0
+REQ003 UK India Agriculture 30000.0 5.0
+```
+
+## 📊 Trade Evaluation Logic
+
+### Decision Matrix
+
+| Proposed Tariff | Condition | Result | Additional Action |
+|----------------|-----------|--------|-------------------|
+| ≥ Min Tariff | Meets requirement | ✅ Accepted | None |
+| ≥ 80% of Min | Within 20% tolerance | ⚠️ Conditionally Accepted | Surcharge applied |
+| < 80% of Min | Below tolerance | ❌ Rejected | Trade blocked |
+
+### Example Scenarios
+
+**Scenario 1: Accepted**
+```
+Minimum Tariff: 10%
+Proposed Tariff: 12%
+Result: REQ001 - Accepted.
+Proposed tariff 12.0% meets or exceeds minimum requirement 10.0%
+```
+
+**Scenario 2: Conditionally Accepted**
+```
+Minimum Tariff: 10%
+Proposed Tariff: 8.5%
+Trade Value: $50,000
+Surcharge: $50,000 × (10 - 8.5) / 100 = $750
+Result: REQ002 - Conditionally Accepted.
+Proposed tariff 8.5% is within 20% of required minimum 10.0%.
+A surcharge of $750.00 is applied.
+```
+
+**Scenario 3: Rejected**
+```
+Minimum Tariff: 10%
+Proposed Tariff: 5%
+Result: REQ003 - Rejected.
+Proposed tariff 5.0% is more than 20% below required minimum 10.0%.
+```
